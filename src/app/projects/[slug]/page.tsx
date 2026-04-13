@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -5,7 +6,7 @@ import { notFound } from 'next/navigation'
 import type { Project } from '@/types/project'
 import AnimatedBlock from '@/components/ui/AnimatedBlock'
 
-async function getProject(slug: string): Promise<Project | null> {
+const getProject = cache(async function getProject(slug: string): Promise<Project | null> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/api/projects`,
@@ -17,7 +18,7 @@ async function getProject(slug: string): Promise<Project | null> {
   } catch {
     return null
   }
-}
+})
 
 export async function generateMetadata(
   props: { params: Promise<{ slug: string }> }
@@ -47,7 +48,7 @@ export default async function ProjectDetail(
         href="/"
         className="inline-flex items-center gap-2 font-terminal text-[10px] uppercase tracking-widest text-gray-500 hover:text-black mb-12 transition-colors"
       >
-        <span className="material-symbols-outlined text-sm">arrow_back</span>
+        <span className="material-symbols-outlined text-sm" aria-hidden="true">arrow_back</span>
         BACK_TO_HOME
       </Link>
 
@@ -62,7 +63,7 @@ export default async function ProjectDetail(
         <h1 className="font-headline text-6xl md:text-8xl font-black leading-[0.85] tracking-tighter uppercase mb-8">
           {project.title}
         </h1>
-        <p className="font-body text-xl text-gray-700 max-w-2xl leading-relaxed">{project.description}</p>
+        <p className="font-body text-xl text-gray-700 max-w-2xl leading-relaxed">{project.description ?? ''}</p>
       </AnimatedBlock>
 
       {/* Cover image */}
@@ -87,8 +88,8 @@ export default async function ProjectDetail(
           { label: 'AÑO', value: project.metadata?.year?.toString() ?? '—' },
           { label: 'CATEGORÍA', value: project.metadata?.category ?? '—' },
           { label: 'STACK', value: project.metadata?.tech_stack?.slice(0, 2).join(', ') ?? '—' },
-        ].map((item, i) => (
-          <div key={i} className="p-6 border-r border-black last:border-r-0">
+        ].map((item) => (
+          <div key={item.label} className="p-6 border-r border-black last:border-r-0">
             <div className="font-terminal text-[9px] uppercase tracking-widest text-gray-400 mb-2">{item.label}</div>
             <div className="font-terminal text-sm font-bold">{item.value}</div>
           </div>
