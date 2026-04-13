@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { Noto_Serif, Space_Grotesk } from "next/font/google";
+import { Noto_Serif, Space_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import PageTransition from "@/components/layout/PageTransition";
 
 const notoSerif = Noto_Serif({
   variable: "--font-noto-serif",
@@ -14,13 +17,15 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["300", "400", "500", "700"],
 });
 
-export const metadata: Metadata = {
-  title: "HEX.vIA.sys[06] | ARCHITECTING THE NEURAL INTERFACE",
-  description: "Senior UX/UI Designer & Creative Technologist Portfolio",
-};
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+export const metadata: Metadata = {
+  title: "Felipe | Arquitecto de IA & Automatización",
+  description: "Senior developer especializado en IA, automatización y GoHighLevel. Basado en Quito, Ecuador.",
+};
 
 export default function RootLayout({
   children,
@@ -28,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="light">
+    <html lang="es" className="light">
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
@@ -36,10 +41,10 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${notoSerif.variable} ${spaceGrotesk.variable} min-h-full flex flex-col font-body bg-background text-primary`}
+        className={`${notoSerif.variable} ${spaceGrotesk.variable} ${geistMono.variable} min-h-full flex flex-col font-body bg-background text-primary`}
       >
         <Navbar />
-        {children}
+        <PageTransition>{children}</PageTransition>
         <Footer />
       </body>
     </html>
