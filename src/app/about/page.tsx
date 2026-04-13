@@ -36,7 +36,7 @@ export default function About() {
             </div>
             <div>
               <span className="font-bold text-gray-500">UBICACIÓN:</span> Quito, Ecuador <br/>
-              <span className="text-xs text-gray-400">[0° 13' 47" S, 78° 31' 29" W]</span>
+              <span className="text-xs text-gray-400">[0° 13&apos; 47&quot; S, 78° 31&apos; 29&quot; W]</span>
             </div>
             <div>
               <span className="font-bold text-gray-500">ZONA HORARIA:</span> GMT-5

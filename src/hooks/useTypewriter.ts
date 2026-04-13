@@ -10,10 +10,9 @@ export function useTypewriter(text: string, speed = 35, delay = 0) {
     setDisplayed('')
     setDone(false)
 
-    let timeout: ReturnType<typeof setTimeout>
     let interval: ReturnType<typeof setInterval>
 
-    timeout = setTimeout(() => {
+    const timeout = setTimeout(() => {
       let i = 0
       interval = setInterval(() => {
         i++

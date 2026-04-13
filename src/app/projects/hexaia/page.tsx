@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HexaIAProject() {
   return (
@@ -95,26 +96,32 @@ export default function HexaIAProject() {
       {/* Project Imagery Layout - Photorealistic Mockups */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-b border-black">
         <div className="aspect-square border-b md:border-b-0 border-r-0 md:border-r border-black relative group overflow-hidden bg-surface">
-          <img 
-            className="w-full h-full object-cover grayscale transition-all duration-700" 
+          <Image
+            className="w-full h-full object-cover grayscale transition-all duration-700"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9O6Uvl1cpVmbLcsTZ45uejnnVQBDA81iogBzxvWq3CEuhEY7BBqWzDUf8fUqW7RD94wAukE8kIY_UA4pQfawDjpMTCfgrXTLLoFYq-zAwBS4BWMZTapywBhddMXMlvLahIBu_Q_-GDeee2IUh7EypQwchO31LLkVgJ5RuA-DufLCcJ9BX3WDXLU80MPfssdJhCn-6iCyXk6LJfuGe-wsVeEG2SE6-DEP6FrwtUJNIgmV5eGBw3d_cm7R6OVrS8x0kCNPalfyOQ34"
             alt="HexaIA interface mockup"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
           />
           <div className="absolute top-4 left-4 font-mono text-[10px] bg-white px-2 py-1 border border-black shadow-[2px_2px_0_0_#000] z-10">MOCKUP_01</div>
         </div>
         <div className="aspect-square border-b md:border-b-0 border-r-0 lg:border-r border-black relative group overflow-hidden bg-surface">
-          <img 
-            className="w-full h-full object-cover grayscale transition-all duration-700" 
+          <Image
+            className="w-full h-full object-cover grayscale transition-all duration-700"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdhduk1GJBqUDWic5c4qcxhu4Pt7BePhQLONXE2_yQ90s0LLcRgzO9CJ1uR4ieGsvSTHMjdYSPA7REuNak53pymDwvmnuW0wWkKC_vCazbM0IJvo41h2D-us15mmM4aplTzT5QgKCQh8Gr0Q5wClohTnJZsMaye3WiEtXOYDqQRNEr2CZMQk0_VK7RnrwkGIBfStkPB1k7mmlVhLftMMIp7Axb3_Dinr3ClNqbjKIRUz2Wn6sLX_1yhA6a9wTJ6eMbFAexsXZ38w0"
             alt="Node architecture schematic"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
           />
           <div className="absolute top-4 left-4 font-mono text-[10px] bg-white px-2 py-1 border border-black shadow-[2px_2px_0_0_#000] z-10">SYSTEM_NODES_02</div>
         </div>
         <div className="aspect-square col-span-1 md:col-span-2 lg:col-span-1 relative group overflow-hidden bg-surface">
-          <img 
-            className="w-full h-full object-cover grayscale transition-all duration-700" 
+          <Image
+            className="w-full h-full object-cover grayscale transition-all duration-700"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqqCcma-59r1-A-BXEZq1ig9zknQmk-nfPry29gG9U0XkYlyCE0kHFSusGgUHXUfu6t_X3J25chsL1HY6zp7FkL-nuQpCByBa44bhUTeMfL0zCh5A6uUZERwQG0MBMsezB4fb31QbCvKA6JoSBpZwdPGPusjJhKetxONC_2jyB74bbsxducX47gx-t5sjClUoBERozx7CrZXkKqsT9AZoIzEqXbDu_GghlkA5PiJSVV_If-EpaeTkwX1lZRszjQ-Rotkz4IVFV1yU"
             alt="HexaIA architecture contextual"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
           />
           <div className="absolute top-4 left-4 font-mono text-[10px] bg-white px-2 py-1 border border-black shadow-[2px_2px_0_0_#000] z-10">CONTEXTUAL_03</div>
         </div>
