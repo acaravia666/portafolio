@@ -6,7 +6,7 @@ export default function ConsultingPage() {
       serviceId="SERVICE_05"
       title="CONSULTORÍA & CAPACITACIÓN"
       tagline="Estrategia, mentoría y formación para equipos que quieren operar con AI desde adentro."
-      stack={['Notion', 'Loom', 'Zoom', 'Claude API', 'Make.com', 'GoHighLevel']}
+      stack={['GoHighLevel', 'Figma', 'Claude Code', 'n8n', 'Zapier', 'WhatsApp API', 'Contenido con IA']}
       duration="1–8 semanas"
       delivery="Plan de implementación + sesiones grabadas + recursos del equipo"
       steps={[
