@@ -75,7 +75,7 @@ export default function Contact() {
 
           <div className="space-y-6 flex flex-col font-terminal text-lg font-bold mb-12">
             {[
-              { href: 'mailto:contact@hexaia.io', label: 'EMAIL_CONNECTION', icon: 'mail', external: false },
+              { href: 'mailto:fcaravia420@gmail.com?subject=Proyecto%20%2F%20Consulta&body=Hola%20Felipe%2C%0A%0AMe%20comunico%20porque%20estoy%20interesado%20en%20trabajar%20contigo.%0A%0A%5BDescribe%20brevemente%20tu%20proyecto%20o%20consulta%5D%0A%0AGracias%2C', label: 'EMAIL_CONNECTION', icon: 'mail', external: false },
               { href: 'https://www.linkedin.com/in/felipe-caravia-7a331421a/', label: 'LINKEDIN_NETWORK', icon: 'public', external: true },
               { href: 'https://github.com', label: 'GITHUB_REPOSITORY', icon: 'code', external: true },
             ].map((link) => (
