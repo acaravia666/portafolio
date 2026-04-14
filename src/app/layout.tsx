@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Felipe | Arquitecto de IA & Automatización",
+  title: "Felipe Caravia| Arquitecto de IA & Automatización",
   description: "Senior developer especializado en IA, automatización y GoHighLevel. Basado en Quito, Ecuador.",
 };
 
