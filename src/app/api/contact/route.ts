@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic'
+export const maxDuration = 30
+
 import { LeadSchema } from '@/types/lead'
 import { getAnthropicClient } from '@/lib/anthropic/client'
 import { LEAD_SCORING_SYSTEM_PROMPT } from '@/lib/anthropic/prompts'

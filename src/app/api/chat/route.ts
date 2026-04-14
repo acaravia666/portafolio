@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic'
+export const maxDuration = 30
+
 import { getAnthropicClient } from '@/lib/anthropic/client'
 import { CHAT_SYSTEM_PROMPT } from '@/lib/anthropic/prompts'
 import { z } from 'zod'

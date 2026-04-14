@@ -120,7 +120,7 @@ export default function TerminalChat() {
         {messages.map((msg, i) => (
           <div key={i} className={msg.role === 'user' ? 'text-secondary-container' : 'text-gray-300'}>
             <span className="font-terminal text-[10px] opacity-50">
-              {msg.role === 'user' ? '> YOU' : '> FELIPE_AI'}
+              {msg.role === 'user' ? '> YOU' : '> HEX.vIA.sys[06]'}
             </span>
             <p className="font-terminal text-xs leading-relaxed mt-1 whitespace-pre-wrap">{msg.content}</p>
           </div>
@@ -128,7 +128,7 @@ export default function TerminalChat() {
 
         {streamingText && (
           <div className="text-gray-300">
-            <span className="font-terminal text-[10px] opacity-50">&gt; FELIPE_AI</span>
+            <span className="font-terminal text-[10px] opacity-50">&gt; HEX.vIA.sys[06]</span>
             <p className="font-terminal text-xs leading-relaxed mt-1 whitespace-pre-wrap">
               {streamingText}
               <span className="cursor-blink" aria-hidden="true" />
