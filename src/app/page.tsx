@@ -74,11 +74,13 @@ export default async function Home() {
               ))}
             </ul>
           </AnimatedBlock>
-          <AnimatedBlock delay={0.3} className="border border-black border-l-0 border-t-0 p-8 bg-black text-white flex flex-col justify-between group hover:bg-secondary-container hover:text-black transition-colors cursor-pointer min-h-[250px]">
-            <span className="font-terminal text-[10px] uppercase text-gray-400 group-hover:text-black transition-colors">EXECUTE_PROJECT_INIT</span>
-            <Link href="/contact" className="flex justify-between items-end mt-12 w-full">
-              <span className="text-4xl md:text-5xl font-headline italic">Start Session</span>
-              <span className="material-symbols-outlined text-5xl">north_east</span>
+          <AnimatedBlock delay={0.3} className="border border-black border-l-0 border-t-0 bg-black text-white group hover:bg-secondary-container hover:text-black transition-colors min-h-[250px]">
+            <Link href="/contact" className="p-8 flex flex-col justify-between h-full min-h-[250px]">
+              <span className="font-terminal text-[10px] uppercase text-gray-400 group-hover:text-black transition-colors">EXECUTE_PROJECT_INIT</span>
+              <div className="flex justify-between items-end mt-12 w-full">
+                <span className="text-4xl md:text-5xl font-headline italic">Start Session</span>
+                <span className="material-symbols-outlined text-5xl">north_east</span>
+              </div>
             </Link>
           </AnimatedBlock>
         </div>
