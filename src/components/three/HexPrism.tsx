@@ -1,18 +1,20 @@
 'use client'
 
-import { useRef, useEffect, useMemo } from 'react'
+import { useRef, useEffect, useMemo, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
+import { Environment, Float, Edges, MeshTransmissionMaterial, TorusKnot } from '@react-three/drei'
+import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
 import { useReducedMotion } from 'framer-motion'
 
-function PrismMesh() {
-  const meshRef = useRef<THREE.Mesh>(null)
-  const edgesRef = useRef<THREE.LineSegments>(null)
+function HolographicGlassPrism() {
+  const groupRef = useRef<THREE.Group>(null)
+  const innerCoreRef = useRef<THREE.Mesh>(null)
+  const wireframeRef = useRef<THREE.Mesh>(null)
   const { gl } = useThree()
   const prefersReducedMotion = useReducedMotion()
+  const [hovered, setHovered] = useState(false)
 
-  // Track mouse position in normalized device coordinates
   const mouse = useRef({ x: 0, y: 0 })
   const target = useRef({ x: 0, y: 0 })
 
@@ -27,40 +29,122 @@ function PrismMesh() {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [gl])
 
-  useFrame(() => {
-    if (!meshRef.current || !edgesRef.current) return
+  useFrame((state, delta) => {
+    if (!groupRef.current) return
     if (prefersReducedMotion) return
 
-    // Auto-rotation
-    meshRef.current.rotation.y += 0.003
-    edgesRef.current.rotation.y = meshRef.current.rotation.y
+    const t = state.clock.elapsedTime
 
-    // Smooth cursor tracking (lerp)
-    target.current.x += (mouse.current.x * 0.3 - target.current.x) * 0.05
-    target.current.y += (mouse.current.y * 0.3 - target.current.y) * 0.05
+    // Smooth target tracking for parallax
+    target.current.x = THREE.MathUtils.lerp(target.current.x, mouse.current.x, 0.05)
+    target.current.y = THREE.MathUtils.lerp(target.current.y, mouse.current.y, 0.05)
 
-    meshRef.current.rotation.x = (Math.PI / 12) + target.current.y
-    meshRef.current.rotation.z = target.current.x * 0.2
-    edgesRef.current.rotation.x = meshRef.current.rotation.x
-    edgesRef.current.rotation.z = meshRef.current.rotation.z
+    // Base Group Rotation
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(
+      groupRef.current.rotation.x,
+      (Math.PI / 12) + target.current.y * 0.4 + Math.sin(t * 0.5) * 0.1,
+      0.1
+    )
+    groupRef.current.rotation.y += delta * 0.15
+    groupRef.current.rotation.z = THREE.MathUtils.lerp(
+      groupRef.current.rotation.z,
+      target.current.x * 0.4,
+      0.1
+    )
+
+    // Inner mechanical core counter-rotations
+    if (innerCoreRef.current && wireframeRef.current) {
+      innerCoreRef.current.rotation.y -= delta * 0.8
+      innerCoreRef.current.rotation.z = Math.sin(t) * 0.2
+      wireframeRef.current.rotation.y -= delta * 0.5
+      wireframeRef.current.rotation.x += delta * 0.3
+    }
+
+    // Explosive scale expansion on hover
+    const scale = hovered ? 1.05 : 1
+    groupRef.current.scale.setScalar(THREE.MathUtils.lerp(groupRef.current.scale.x, scale, 0.1))
   })
 
-  const geometry = useMemo(() => new THREE.CylinderGeometry(1.2, 1.2, 2.4, 6), [])
-  const edgesGeometry = useMemo(() => new THREE.EdgesGeometry(geometry), [geometry])
+  // Significantly larger outer geometries (almost 2.5x larger)
+  const geometry = useMemo(() => new THREE.CylinderGeometry(2.4, 2.4, 4.8, 6), [])
+  const innerHex = useMemo(() => new THREE.CylinderGeometry(1.6, 1.6, 3.2, 6), [])
 
   return (
-    <group>
-      <mesh ref={meshRef} geometry={geometry}>
-        <meshStandardMaterial
-          metalness={0.95}
-          roughness={0.05}
-          envMapIntensity={1.2}
-          color="#d0d0d0"
-        />
-      </mesh>
-      <lineSegments ref={edgesRef} geometry={edgesGeometry}>
-        <lineBasicMaterial color="#BBE405" />
-      </lineSegments>
+    <group 
+      ref={groupRef}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
+      <Float speed={2} rotationIntensity={0.5} floatIntensity={1.5}>
+        
+        {/* Outer Heavy Glass Prism */}
+        <mesh geometry={geometry}>
+          <MeshTransmissionMaterial
+            backside={false}
+            samples={12}
+            resolution={1024}
+            transmission={1}
+            roughness={0.05}
+            thickness={3.5}
+            ior={1.6}
+            chromaticAberration={hovered ? 1.1 : 0.6}
+            anisotropy={0.3}
+            distortion={0}
+            distortionScale={0}
+            temporalDistortion={0}
+            clearcoat={1}
+            clearcoatRoughness={0}
+            color="#ffffff"
+          />
+          {/* Neon wireframe edges reacting to the outer bounding box */}
+          <Edges 
+            linewidth={hovered ? 3 : 1} 
+            threshold={15} 
+            color={hovered ? "#ffffff" : "#BBE405"} 
+            transparent
+            opacity={0.5}
+          />
+        </mesh>
+
+        {/* Inner structural complex (The "System Core") */}
+        <mesh ref={wireframeRef} geometry={innerHex}>
+          <meshBasicMaterial
+            color="#1a1a1a" // Dark skeletal lines inside the glass
+            wireframe
+            transparent
+            opacity={0.4}
+          />
+        </mesh>
+
+        {/* Central Glowing Processor */}
+        <mesh ref={innerCoreRef} scale={[0.8, 0.8, 0.8]}>
+          <octahedronGeometry args={[1.5, 0]} />
+          <meshPhysicalMaterial
+            color="#BBE405"
+            metalness={1}
+            roughness={0.2}
+            emissive="#BBE405"
+            emissiveIntensity={hovered ? 1 : 0.4}
+            envMapIntensity={2}
+          />
+        </mesh>
+        
+        {/* Complex Torus Ring swirling the core showing deep magenta dispersion */}
+        <TorusKnot args={[1.2, 0.15, 120, 16]} scale={[0.8, 0.8, 0.8]}>
+          <meshPhysicalMaterial
+            color="#ff00ff"
+            metalness={1}
+            roughness={0}
+            transmission={0.9} // Secondary glass layer inside the main glass!
+            ior={1.2}
+            iridescence={1}
+            iridescenceIOR={1.4}
+            emissive="#ff00ff"
+            emissiveIntensity={hovered ? 0.3 : 0.05}
+          />
+        </TorusKnot>
+
+      </Float>
     </group>
   )
 }
@@ -68,20 +152,37 @@ function PrismMesh() {
 export default function HexPrism() {
   return (
     <div
-      className="w-full h-full"
-      aria-label="Prisma hexagonal decorativo, identidad visual HexaIA"
+      className="w-full h-full relative cursor-crosshair overflow-visible"
+      aria-label="Holographic HEX.vIA.sys Neural Interface Core"
       role="img"
     >
       <Canvas
-        camera={{ position: [0, 0, 5], fov: 45 }}
-        gl={{ alpha: true, antialias: true }}
-        style={{ background: 'transparent' }}
+        camera={{ position: [0, 0, 8.5], fov: 45 }}
+        gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
+        dpr={[1, 2]}
+        style={{ pointerEvents: 'auto' }}
       >
-        <ambientLight intensity={0.4} />
-        <spotLight position={[-3, 4, 3]} intensity={2} color="#BBE405" />
-        <spotLight position={[3, -2, 3]} intensity={0.8} color="#ffffff" />
-        <Environment preset="studio" />
-        <PrismMesh />
+        <ambientLight intensity={0.5} />
+        
+        {/* Extreme lighting contrast for chromatic reflections */}
+        <spotLight position={[-10, 10, 10]} intensity={25} color="#ff00ff" distance={40} penumbra={1} />
+        <spotLight position={[10, -10, 10]} intensity={25} color="#00ffff" distance={40} penumbra={1} />
+        <spotLight position={[0, 0, 5]} intensity={5} color="#ffffff" distance={20} penumbra={1} />
+        <directionalLight position={[0, -5, -5]} intensity={3} color="#BBE405" />
+
+        <Environment preset="city" />
+        
+        <HolographicGlassPrism />
+
+        {/* Cinematic Bloom logic */}
+        <EffectComposer>
+          <Bloom
+            luminanceThreshold={0.4}
+            mipmapBlur
+            intensity={1.5}
+            radius={0.8}
+          />
+        </EffectComposer>
       </Canvas>
     </div>
   )

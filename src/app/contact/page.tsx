@@ -109,7 +109,7 @@ export default function Contact() {
           </div>
 
           {/* Contact form */}
-          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+          <form id="form" onSubmit={handleSubmit} className="space-y-6" noValidate>
             <div className="font-terminal text-[10px] uppercase tracking-widest text-gray-500 mb-4">FORM_DIRECT_CONTACT</div>
 
             {[
@@ -144,6 +144,9 @@ export default function Contact() {
               >
                 MENSAJE_PROYECTO
               </label>
+              <span className="font-terminal text-[10px] text-gray-400 block mb-2">
+                Sé lo más específico posible — tipo de proyecto, objetivos, plazo estimado.
+              </span>
               <textarea
                 id="message"
                 name="message"

@@ -24,10 +24,11 @@ export default function TerminalChat() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [streamingText, setStreamingText] = useState('')
-  const bottomRef = useRef<HTMLDivElement>(null)
+  const messagesContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    const el = messagesContainerRef.current
+    if (el) el.scrollTop = el.scrollHeight
   }, [messages, streamingText])
 
   async function sendMessage(e: React.FormEvent) {
@@ -115,7 +116,7 @@ export default function TerminalChat() {
       <BootLine />
 
       {/* Message history */}
-      <div className="flex-1 space-y-3 mb-4 overflow-y-auto max-h-52">
+      <div ref={messagesContainerRef} className="flex-1 space-y-3 mb-4 overflow-y-auto max-h-52">
         {messages.map((msg, i) => (
           <div key={i} className={msg.role === 'user' ? 'text-secondary-container' : 'text-gray-300'}>
             <span className="font-terminal text-[10px] opacity-50">
@@ -140,7 +141,6 @@ export default function TerminalChat() {
             {'> '}<span className="cursor-blink" aria-hidden="true" />
           </p>
         )}
-        <div ref={bottomRef} />
       </div>
 
       {/* Input */}

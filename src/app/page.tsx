@@ -49,7 +49,7 @@ export default async function Home() {
           </div>
           <AnimatedBlock delay={0.1} className="relative z-10 mt-auto pt-48 md:pt-64 pointer-events-none">
             <p className="font-body text-xl max-w-md leading-tight bg-white/90 p-4 border border-black shadow-[4px_4px_0_0_#bbe405] pointer-events-auto">
-              Transformando ideas en ecosistemas digitales. Desde el diseño UX/UI y desarrollo de alto rendimiento, hasta la automatización total de tus operaciones.
+              Este prisma 3D corre en tu browser, en tiempo real. Si quieres experiencias así en tu producto, hablemos.
             </p>
           </AnimatedBlock>
         </div>

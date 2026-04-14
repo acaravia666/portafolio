@@ -112,7 +112,7 @@ export default async function ProjectDetail(
           <p className="font-headline text-3xl font-black uppercase">¿Tienes un proyecto similar?</p>
         </div>
         <Link
-          href="/contact"
+          href="/contact#form"
           className="px-8 py-4 bg-black text-white font-terminal text-sm uppercase hover:bg-secondary-container hover:text-black transition-colors shadow-[4px_4px_0_0_#bbe405] hover:shadow-[2px_2px_0_0_#bbe405] hover:translate-x-[2px] hover:translate-y-[2px] flex items-center gap-3"
         >
           INICIAR_PROYECTO

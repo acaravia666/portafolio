@@ -70,7 +70,7 @@ export default function ServicePage({
           </p>
           <div className="mt-12">
             <Link
-              href="/contact"
+              href="/contact#form"
               className="inline-flex items-center gap-3 bg-primary text-background px-8 py-4 font-mono font-bold uppercase tracking-widest border border-black shadow-[4px_4px_0_0_#000000] hover:shadow-[2px_2px_0_0_#000000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
             >
               INICIAR PROYECTO
@@ -225,7 +225,7 @@ export default function ServicePage({
             {ctaHeadline}
           </h2>
           <Link
-            href="/contact"
+            href="/contact#form"
             className="inline-block bg-secondary-container text-black px-12 py-6 font-bold uppercase tracking-widest text-lg md:text-xl hover:bg-white transition-colors border border-black shadow-[4px_4px_0_0_#FFFFFF]"
           >
             INICIAR DIAGNÓSTICO

@@ -209,7 +209,7 @@ export default function HexaIAProject() {
             ESCALABILIDAD SIN CAOS OPERATIVO
           </h2>
           <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-            <Link href="/contact" className="bg-secondary-container text-black px-12 py-6 font-bold uppercase tracking-widest text-lg md:text-xl hover:bg-white transition-colors border border-black shadow-[4px_4px_0_0_#FFFFFF]">
+            <Link href="/contact#form" className="bg-secondary-container text-black px-12 py-6 font-bold uppercase tracking-widest text-lg md:text-xl hover:bg-white transition-colors border border-black shadow-[4px_4px_0_0_#FFFFFF]">
               INICIAR DIAGNÓSTICO
             </Link>
           </div>
