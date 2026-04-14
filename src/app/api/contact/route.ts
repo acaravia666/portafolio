@@ -3,6 +3,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { getAnthropicClient } from '@/lib/anthropic/client'
 import { LEAD_SCORING_SYSTEM_PROMPT } from '@/lib/anthropic/prompts'
 import { createGHLContact } from '@/lib/ghl/client'
+import { Resend } from 'resend'
 
 export async function POST(request: Request) {
   // 1. Parse and validate body
@@ -95,6 +96,40 @@ export async function POST(request: Request) {
       .from('leads')
       .update({ ghl_contact_id: ghlResult.contactId })
       .eq('id', lead.id)
+  }
+
+  // 5. Send email notification via Resend
+  if (process.env.RESEND_API_KEY) {
+    try {
+      const resend = new Resend(process.env.RESEND_API_KEY)
+      await resend.emails.send({
+        from: 'Portfolio <onboarding@resend.dev>',
+        to: 'fcaravia420@gmail.com',
+        subject: `🔔 Nuevo lead [Score: ${aiScore}] — ${name}`,
+        html: `
+          <div style="font-family: monospace; max-width: 600px; margin: 0 auto; padding: 24px; background: #f9f9f9; border: 1px solid #000;">
+            <h2 style="font-size: 24px; font-weight: 900; text-transform: uppercase; margin: 0 0 24px;">Nuevo Lead — Portfolio</h2>
+
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+              <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold; width: 120px;">NOMBRE</td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${name}</td></tr>
+              <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold;">EMAIL</td><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><a href="mailto:${email}">${email}</a></td></tr>
+              ${company ? `<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold;">EMPRESA</td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${company}</td></tr>` : ''}
+              <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold;">AI SCORE</td><td style="padding: 8px 0; border-bottom: 1px solid #eee; color: ${aiScore >= 70 ? '#22c55e' : aiScore >= 40 ? '#f59e0b' : '#ef4444'}; font-weight: bold;">${aiScore}/100</td></tr>
+              <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold;">RESUMEN</td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${aiSummary}</td></tr>
+            </table>
+
+            <div style="background: #fff; border: 1px solid #000; padding: 16px; margin-bottom: 24px;">
+              <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #888; margin-bottom: 8px;">MENSAJE</div>
+              <p style="margin: 0; white-space: pre-wrap;">${message}</p>
+            </div>
+
+            <a href="mailto:${email}?subject=Re: Proyecto / Consulta" style="display: inline-block; background: #000; color: #bbe405; padding: 12px 24px; text-decoration: none; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em;">RESPONDER AHORA →</a>
+          </div>
+        `,
+      })
+    } catch (err) {
+      console.error('[Contact] Resend email failed:', err)
+    }
   }
 
   return Response.json({
