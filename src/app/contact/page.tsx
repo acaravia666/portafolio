@@ -76,7 +76,7 @@ export default function Contact() {
           <div className="space-y-6 flex flex-col font-terminal text-lg font-bold mb-12">
             {[
               { href: 'mailto:contact@hexaia.io', label: 'EMAIL_CONNECTION', icon: 'mail', external: false },
-              { href: 'https://linkedin.com', label: 'LINKEDIN_NETWORK', icon: 'public', external: true },
+              { href: 'https://www.linkedin.com/in/felipe-caravia-7a331421a/', label: 'LINKEDIN_NETWORK', icon: 'public', external: true },
               { href: 'https://github.com', label: 'GITHUB_REPOSITORY', icon: 'code', external: true },
             ].map((link) => (
               <a
