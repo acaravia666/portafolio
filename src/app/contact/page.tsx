@@ -65,7 +65,7 @@ export default function Contact() {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 pb-32">
 
         {/* Left column */}
-        <div className="flex flex-col">
+        <div className="flex flex-col order-2 md:order-1">
           <div className="mb-4 flex items-center gap-2">
             <span className="w-3 h-3 bg-secondary-container border border-black"></span>
             <span className="text-[10px] uppercase tracking-[0.3em] font-bold font-terminal text-gray-500">INITIATE_HANDSHAKE</span>
@@ -181,7 +181,7 @@ export default function Contact() {
         </div>
 
         {/* Right column — Terminal Chat */}
-        <div className="flex flex-col justify-start pt-4">
+        <div className="flex flex-col justify-start pt-4 order-1 md:order-2">
           <div className="font-terminal text-[10px] uppercase tracking-widest text-gray-500 mb-4">AI_ASSISTANT_ONLINE</div>
           <div className="mb-6">
             <h2 className="font-headline text-3xl md:text-4xl font-black uppercase leading-none tracking-tighter mb-2">
