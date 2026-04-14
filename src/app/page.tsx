@@ -63,6 +63,7 @@ export default async function Home() {
                 { label: 'WEB_ENGINEERING', href: '/projects/web-engineering' },
                 { label: 'APP_ARCHITECTURE', href: '/projects/app-architecture' },
                 { label: 'AUTO_OPS_&_CRM', href: '/projects/auto-ops-crm' },
+                { label: 'CONSULTORÍA_&_CAPACITACIÓN', href: '/projects/consulting' },
               ].map((item) => (
                 <li key={item.label}>
                   <Link href={item.href} className="flex justify-between border-b border-black/10 pb-2 hover:pl-2 hover:border-secondary-container transition-all duration-300 group">
@@ -108,6 +109,7 @@ export default async function Home() {
           { id: 'SERVICE_02', icon: 'design_services', title: 'UX/UI System Design', desc: 'Investigación de usuarios, wireframing y diseño de interfaces premium que fusionan estética industrial con usabilidad funcional para maximizar la retención.', accent: false, href: '/projects/ux-ui-design' },
           { id: 'SERVICE_03', icon: 'smartphone', title: 'App Architecture', desc: 'Sistemas móviles nativos y cross-platform iOS/Android.', accent: false, href: '/projects/app-architecture' },
           { id: 'SERVICE_04', icon: 'hub', title: 'Auto-Ops & CRM', desc: 'Automatización end-to-end e integraciones con GoHighLevel.', accent: true, href: '/projects/auto-ops-crm' },
+          { id: 'SERVICE_05', icon: 'school', title: 'Consultoría & Capacitación', desc: 'Estrategia, mentoría y formación para equipos que quieren operar con AI desde adentro.', accent: false, href: '/projects/consulting' },
         ].map((svc, i) => (
           <AnimatedBlock
             key={svc.id}

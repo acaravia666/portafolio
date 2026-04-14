@@ -97,6 +97,17 @@ export default function Contact() {
             ))}
           </div>
 
+          {/* Contact form CTA */}
+          <div className="mb-8 flex flex-col items-start border-l-4 border-secondary-container pl-4">
+            <h2 className="font-headline text-2xl md:text-3xl font-black uppercase flex items-center gap-3">
+              LLENA ESTE FORMULARIO
+              <span className="material-symbols-outlined text-secondary-container animate-bounce">arrow_downward</span>
+            </h2>
+            <p className="font-terminal text-xs md:text-sm text-gray-500 mt-1 uppercase tracking-wider">
+              Y hablemos de los detalles de tu proyecto
+            </p>
+          </div>
+
           {/* Contact form */}
           <form onSubmit={handleSubmit} className="space-y-6" noValidate>
             <div className="font-terminal text-[10px] uppercase tracking-widest text-gray-500 mb-4">FORM_DIRECT_CONTACT</div>
@@ -169,6 +180,14 @@ export default function Contact() {
         {/* Right column — Terminal Chat */}
         <div className="flex flex-col justify-start pt-4">
           <div className="font-terminal text-[10px] uppercase tracking-widest text-gray-500 mb-4">AI_ASSISTANT_ONLINE</div>
+          <div className="mb-6">
+            <h2 className="font-headline text-3xl md:text-4xl font-black uppercase leading-none tracking-tighter mb-2">
+              ¿TIENES PREGUNTAS?<br />HABLA CON MI IA.
+            </h2>
+            <p className="font-terminal text-xs text-gray-500 leading-relaxed">
+              Pregúntale sobre servicios, disponibilidad, stack técnico o cómo puedo ayudarte con tu proyecto.
+            </p>
+          </div>
           <TerminalChat />
           <p className="font-terminal text-[9px] text-gray-400 mt-3 leading-relaxed">
             El asistente responde preguntas sobre skills, disponibilidad y proyectos. Powered by Claude API.

@@ -39,6 +39,15 @@ const services = [
     accent: true,
     large: false,
   },
+  {
+    id: 'SERVICE_05',
+    icon: 'school',
+    title: 'Consultoría & Capacitación',
+    desc: 'Estrategia, mentoría y formación para equipos que quieren operar con AI desde adentro.',
+    href: '/projects/consulting',
+    accent: false,
+    large: false,
+  },
 ]
 
 export default function ProjectsIndex() {
