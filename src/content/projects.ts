@@ -1,0 +1,158 @@
+import type { Project } from '@/types/project'
+
+export const projects: Project[] = [
+  {
+    slug: 'qr-shirts',
+    name: 'QR Shirts',
+    tagline: 'Convierte cualquier camiseta en una experiencia digital',
+    summary:
+      'Webapp para crear, personalizar y vender camisetas con un QR único que resuelve a una página pública totalmente editable.',
+    category: 'SaaS · E-commerce',
+    year: 2026,
+    role: 'Creador · Full-stack',
+    stack: ['Next.js (App Router)', 'TypeScript strict', 'Tailwind', 'Framer Motion', 'Zustand', 'Supabase (RLS)', 'qrcode.react'],
+    liveUrl: 'https://q-rshirts.vercel.app',
+    repoUrl: 'https://github.com/acaravia666/QRshirts',
+    status: 'live',
+    featured: true,
+    heroEmbed: true,
+    visual: 'screenshot',
+    accent: '#bbe405',
+    screenshots: [
+      { src: '/screenshots/qr-shirts-desktop.png', alt: 'QR Shirts — landing y configurador', device: 'desktop' },
+      { src: '/screenshots/qr-shirts-mobile.png', alt: 'QR Shirts en móvil', device: 'mobile' },
+    ],
+    caseStudy: {
+      problem:
+        'Una camiseta es un lienzo estático: no puede apuntar a tu portfolio, tu tienda o tu perfil, ni cambiar después de imprimirse.',
+      approach:
+        'Un configurador con preview en vivo de la camiseta + QR (Zustand para el estado, qrcode.react para generar y exportar PNG/SVG). Cada QR resuelve a /q/[slug], una página pública editable desde un dashboard protegido. Lecturas públicas y logging de escaneos vía RPCs SECURITY DEFINER en Supabase.',
+      highlights: [
+        'Configurador con preview en vivo de camiseta + QR',
+        'Export del QR en PNG y SVG',
+        'Página pública escaneable /q/[slug], editable',
+        'Dashboard con auth: estadísticas y edición',
+        'Supabase con RLS y RPCs SECURITY DEFINER para escaneos',
+      ],
+    },
+  },
+  {
+    slug: 'iri5',
+    name: 'IRI5',
+    tagline: 'Inteligencia de audiencias en tiempo real',
+    summary:
+      'SaaS B2B multi-tenant que procesa video de cámaras web/IP para detectar emociones, demografía y amenazas de seguridad directamente en el navegador — sin enviar imágenes a ningún servidor.',
+    category: 'SaaS · Visión AI',
+    year: 2026,
+    role: 'Fundador · Full-stack & ML',
+    stack: ['React 18', 'TypeScript', 'Tailwind v4', 'Face-API.js', 'YOLOv8n (ONNX)', 'TensorFlow.js', 'Supabase', 'Recharts'],
+    repoUrl: 'https://github.com/acaravia666/iri5',
+    status: 'live',
+    featured: true,
+    visual: 'typographic',
+    accent: '#bbe405',
+    screenshots: [],
+    caseStudy: {
+      problem:
+        'Retail, restaurantes y espacios públicos en LatAm no tienen forma accesible y privada de medir quién entra, cómo reacciona y qué riesgos de seguridad hay — las soluciones existentes envían el video a la nube.',
+      approach:
+        'Toda la inferencia corre en el navegador con WebGL/ONNX: Face-API.js para emociones y demografía, YOLOv8n para conteo "body-first" sin rostro, y un motor de reglas con cooldown y webhooks. Multi-tenant con RLS en Supabase y control granular de qué datos se recopilan.',
+      highlights: [
+        'Emociones, edad y género por cuadro, 100% en el navegador',
+        'Modo body-first con YOLOv8n para conteo sin detección facial',
+        'Motor de reglas con triggers, cooldown y webhooks',
+        'Cámaras IP vía WHEP/RTSP (MediaMTX)',
+        'Multi-workspace con RLS e invitaciones por token',
+        'Privacidad: control de qué datos se recopilan',
+      ],
+    },
+  },
+  {
+    slug: 'hex-via-cms',
+    name: 'Hex.Via CMS',
+    tagline: 'CMS multi-tenant con editor visual sobre el sitio real',
+    summary:
+      'Plataforma CMS independiente para que los clientes administren el contenido de sus sitios — textos, imágenes y tarjetas — sin tocar código ni diseño.',
+    category: 'SaaS · CMS',
+    year: 2026,
+    role: 'Fundador · Arquitecto & Full-stack',
+    stack: ['Next.js', 'TypeScript', 'Supabase (RLS)', 'pnpm monorepo', '@hexvia/site-kit SDK', 'Docker'],
+    liveUrl: 'https://hexvia-cms-admin.vercel.app',
+    repoUrl: 'https://github.com/acaravia666/hexvia-cms',
+    status: 'live',
+    featured: true,
+    visual: 'screenshot',
+    accent: '#bbe405',
+    screenshots: [
+      { src: '/screenshots/hex-via-cms-desktop.png', alt: 'Hex.Via CMS — landing', device: 'desktop' },
+      { src: '/screenshots/hex-via-cms-mobile.png', alt: 'Hex.Via CMS en móvil', device: 'mobile' },
+    ],
+    caseStudy: {
+      problem:
+        'Las agencias que entregan sitios a medida quedan atrapadas como el cuello de botella: cada cambio de texto o imagen del cliente vuelve al desarrollador.',
+      approach:
+        'Un panel multi-tenant con RLS probado y un editor visual que trabaja sobre el sitio real (no un formulario aparte): textos, imágenes y tarjetas, con historial/rollback, biblioteca de medios, gestión de usuarios y un kit de conexión (@hexvia/site-kit) para enchufar cualquier sitio.',
+      highlights: [
+        'Editor visual sobre el sitio real, no un formulario aparte',
+        'Multi-tenant con Row Level Security probado',
+        'Historial y rollback de cambios',
+        'Biblioteca de medios y gestión de usuarios',
+        'SDK @hexvia/site-kit para conectar sitios existentes',
+      ],
+    },
+  },
+  {
+    slug: 'pops-cafe',
+    name: 'Pops Café',
+    tagline: 'Pedidos y pickup para un café de postres',
+    summary: 'App de pedidos y recogida en tienda con actualizaciones en tiempo real para un café de postres.',
+    category: 'App · E-commerce',
+    year: 2026,
+    role: 'Full-stack',
+    stack: ['Next.js 14', 'TypeScript', 'Supabase (Postgres + Realtime)', 'Vercel'],
+    liveUrl: 'https://pops-cafe.vercel.app',
+    repoUrl: 'https://github.com/acaravia666/pops-cafe',
+    status: 'live',
+    featured: false,
+    visual: 'screenshot',
+    screenshots: [
+      { src: '/screenshots/pops-cafe-desktop.png', alt: 'Pops Café', device: 'desktop' },
+    ],
+  },
+  {
+    slug: 'experto-tax',
+    name: 'Experto Tax & Bookkeeping',
+    tagline: 'Sitio para una firma de impuestos y contabilidad',
+    summary: 'Sitio corporativo para una firma de impuestos y contabilidad, implementado desde diseño en Figma.',
+    category: 'Sitio cliente',
+    year: 2026,
+    role: 'Diseño a código',
+    stack: ['Next.js', 'TypeScript', 'Tailwind'],
+    liveUrl: 'https://experto-tax-bookkeeping.vercel.app',
+    repoUrl: 'https://github.com/acaravia666/experto-tax-bookkeeping',
+    status: 'live',
+    featured: false,
+    visual: 'screenshot',
+    screenshots: [
+      { src: '/screenshots/experto-tax-desktop.png', alt: 'Experto Tax & Bookkeeping', device: 'desktop' },
+    ],
+  },
+  {
+    slug: 'crisisapp',
+    name: 'CrisisApp',
+    tagline: 'Gestión de equipo (gear) para situaciones críticas',
+    summary: 'Aplicación para organizar equipo y recursos ante emergencias.',
+    category: 'App',
+    year: 2026,
+    role: 'Full-stack',
+    stack: ['Next.js', 'TypeScript'],
+    liveUrl: 'https://crisisapp.vercel.app',
+    repoUrl: 'https://github.com/acaravia666/crisisapp',
+    status: 'live',
+    featured: false,
+    visual: 'screenshot',
+    screenshots: [
+      { src: '/screenshots/crisisapp-desktop.png', alt: 'CrisisApp', device: 'desktop' },
+    ],
+  },
+]
