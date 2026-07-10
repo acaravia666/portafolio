@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic'
 export const maxDuration = 30
 
 import { LeadSchema } from '@/types/lead'
-import { getAnthropicClient } from '@/lib/anthropic/client'
+import { getAIProvider } from '@/lib/ai'
 import { LEAD_SCORING_SYSTEM_PROMPT } from '@/lib/anthropic/prompts'
 import { Resend } from 'resend'
 
@@ -26,34 +26,17 @@ export async function POST(request: Request) {
 
     const { name, email, company, message } = parsed.data
 
-    // 2. Score lead with Claude
+    // 2. Score lead via the configured AI provider
     let aiScore = 50
     let aiSummary = 'Lead received'
-
     try {
-      const anthropic = getAnthropicClient()
-      const scoring = await anthropic.messages.create({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 150,
-        system: [
-          {
-            type: 'text',
-            text: LEAD_SCORING_SYSTEM_PROMPT,
-            cache_control: { type: 'ephemeral' },
-          },
-        ],
-        messages: [
-          {
-            role: 'user',
-            content: `Name: ${name}\nCompany: ${company ?? 'Not specified'}\nMessage: ${message}`,
-          },
-        ],
+      const provider = getAIProvider()
+      const result = await provider.scoreLead({
+        system: LEAD_SCORING_SYSTEM_PROMPT,
+        user: `Name: ${name}\nCompany: ${company ?? 'Not specified'}\nMessage: ${message}`,
       })
-
-      const responseText = scoring.content[0].type === 'text' ? scoring.content[0].text : ''
-      const scoreData = JSON.parse(responseText) as { score: number; summary: string }
-      aiScore = scoreData.score
-      aiSummary = scoreData.summary
+      aiScore = result.score
+      aiSummary = result.summary
     } catch (err) {
       console.error('[Contact] AI scoring failed, using defaults:', err)
     }
