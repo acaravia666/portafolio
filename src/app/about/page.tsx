@@ -23,7 +23,7 @@ export default function About() {
             Soy Felipe, un estratega digital y desarrollador especializado en la intersección de la <strong>Inteligencia Artificial</strong> y la <strong>automatización de procesos</strong>. Mi enfoque no es solo construir herramientas, sino diseñar arquitectura lógica que permita a las empresas operar a una escala superior sin incrementar su carga operativa.
           </p>
           <p className="font-terminal text-xl max-w-3xl leading-relaxed text-gray-700 text-left">
-            Como fundador de <strong>HexaIA</strong>, transformo la infraestructura de negocios mediante la implementación de soluciones de marca blanca sobre GoHighLevel, integrando flujos de trabajo inteligentes que convierten la complejidad técnica en simplicidad operativa.
+            Como fundador de <strong>Hex.Via</strong>, transformo la infraestructura de negocios mediante la implementación de soluciones de marca blanca sobre GoHighLevel, integrando flujos de trabajo inteligentes que convierten la complejidad técnica en simplicidad operativa.
           </p>
         </AnimatedBlock>
 
@@ -52,7 +52,7 @@ export default function About() {
             </div>
             <div>
               <span className="font-bold text-gray-500">PROYECTOS ACTIVOS:</span><br/>
-              HexaIA, La Agenda 6, Toilet Hunter.
+              Hex.Via CMS, IRI5, QR Shirts.
             </div>
           </div>
         </AnimatedBlock>
