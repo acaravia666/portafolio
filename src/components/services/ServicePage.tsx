@@ -1,43 +1,16 @@
 'use client'
 
 import Link from 'next/link'
+import type { Service } from '@/types/service'
 
-interface Step {
-  title: string
-  description: string
-}
-
-export interface ServicePageProps {
-  serviceId: string
-  title: string
-  tagline: string
-  stack: string[]
-  duration: string
-  delivery: string
-  steps: Step[]
-  useCases: string[]
-  ctaHeadline: string
-  deliverableLabels: [string, string, string]
-}
-
-export default function ServicePage({
-  serviceId,
-  title,
-  tagline,
-  stack,
-  duration,
-  delivery,
-  steps,
-  useCases,
-  ctaHeadline,
-  deliverableLabels,
-}: ServicePageProps) {
+export default function ServicePage({ service }: { service: Service }) {
+  const { serviceId, title, tagline, stack, duration, delivery, steps, useCases, ctaHeadline } = service
   return (
     <main className="min-h-screen pt-20">
       {/* Back Navigation */}
       <div className="px-6 py-8">
         <Link
-          href="/projects"
+          href="/services"
           className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-secondary-container transition-colors group"
         >
           <span
@@ -143,21 +116,12 @@ export default function ServicePage({
         </div>
       </section>
 
-      {/* Deliverable placeholder tiles */}
+      {/* Deliverable / focus tiles */}
       <section className="grid grid-cols-1 md:grid-cols-3 border-b border-black">
-        {deliverableLabels.map((label, i) => (
-          <div
-            key={label}
-            className={`aspect-square relative bg-surface flex items-center justify-center border-black ${
-              i < 2 ? 'border-b md:border-b-0 border-r-0 md:border-r' : ''
-            }`}
-          >
-            <div className="absolute top-4 left-4 font-mono text-[10px] bg-white px-2 py-1 border border-black shadow-[2px_2px_0_0_#000] z-10">
-              {label}
-            </div>
-            <span className="font-terminal text-[10px] text-gray-300 uppercase tracking-widest">
-              {`// ${serviceId}`}
-            </span>
+        {stack.slice(0, 3).map((label, i) => (
+          <div key={label} className={`aspect-square relative bg-surface flex items-center justify-center border-black ${i < 2 ? 'border-b md:border-b-0 border-r-0 md:border-r' : ''}`}>
+            <div className="absolute top-4 left-4 font-mono text-[10px] bg-white px-2 py-1 border border-black shadow-[2px_2px_0_0_#000] z-10">{label}</div>
+            <span className="font-terminal text-[10px] text-gray-300 uppercase tracking-widest">{`// ${serviceId}`}</span>
           </div>
         ))}
       </section>
