@@ -2,12 +2,18 @@
 
 import { useRef, useEffect, useMemo, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Environment, Float, Edges, MeshTransmissionMaterial, TorusKnot } from '@react-three/drei'
+import { Environment, Float, Edges, MeshTransmissionMaterial, TorusKnot, AdaptiveDpr, PerformanceMonitor } from '@react-three/drei'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
 import { useReducedMotion } from 'framer-motion'
 
-function HolographicGlassPrism() {
+const PRISM = {
+  outer: { radius: 2.4, height: 4.8, sides: 6 },
+  inner: { radius: 1.6, height: 3.2, sides: 6 },
+  rotationSpeed: 0.15,
+} as const
+
+function HolographicGlassPrism({ degraded }: { degraded: boolean }) {
   const groupRef = useRef<THREE.Group>(null)
   const innerCoreRef = useRef<THREE.Mesh>(null)
   const wireframeRef = useRef<THREE.Mesh>(null)
@@ -45,7 +51,7 @@ function HolographicGlassPrism() {
       (Math.PI / 12) + target.current.y * 0.4 + Math.sin(t * 0.5) * 0.1,
       0.1
     )
-    groupRef.current.rotation.y += delta * 0.15
+    groupRef.current.rotation.y += delta * PRISM.rotationSpeed
     groupRef.current.rotation.z = THREE.MathUtils.lerp(
       groupRef.current.rotation.z,
       target.current.x * 0.4,
@@ -66,8 +72,14 @@ function HolographicGlassPrism() {
   })
 
   // Significantly larger outer geometries (almost 2.5x larger)
-  const geometry = useMemo(() => new THREE.CylinderGeometry(2.4, 2.4, 4.8, 6), [])
-  const innerHex = useMemo(() => new THREE.CylinderGeometry(1.6, 1.6, 3.2, 6), [])
+  const geometry = useMemo(
+    () => new THREE.CylinderGeometry(PRISM.outer.radius, PRISM.outer.radius, PRISM.outer.height, PRISM.outer.sides),
+    []
+  )
+  const innerHex = useMemo(
+    () => new THREE.CylinderGeometry(PRISM.inner.radius, PRISM.inner.radius, PRISM.inner.height, PRISM.inner.sides),
+    []
+  )
 
   return (
     <group 
@@ -81,8 +93,8 @@ function HolographicGlassPrism() {
         <mesh geometry={geometry}>
           <MeshTransmissionMaterial
             backside={false}
-            samples={12}
-            resolution={1024}
+            samples={degraded ? 4 : 12}
+            resolution={degraded ? 256 : 1024}
             transmission={1}
             roughness={0.05}
             thickness={3.5}
@@ -150,20 +162,36 @@ function HolographicGlassPrism() {
 }
 
 export default function HexPrism() {
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(true)
+  const [degraded, setDegraded] = useState(false)
+
+  useEffect(() => {
+    const el = wrapRef.current
+    if (!el) return
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.05 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
   return (
     <div
+      ref={wrapRef}
       className="w-full h-full relative cursor-crosshair overflow-visible"
-      aria-label="Holographic HEX.vIA.sys Neural Interface Core"
-      role="img"
+      aria-hidden="true"
     >
       <Canvas
         camera={{ position: [0, 0, 8.5], fov: 45 }}
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
         dpr={[1, 2]}
+        frameloop={visible ? 'always' : 'never'}
         style={{ pointerEvents: 'auto' }}
       >
+        <PerformanceMonitor onDecline={() => setDegraded(true)} />
+        <AdaptiveDpr pixelated />
+
         <ambientLight intensity={0.5} />
-        
+
         {/* Extreme lighting contrast for chromatic reflections */}
         <spotLight position={[-10, 10, 10]} intensity={25} color="#ff00ff" distance={40} penumbra={1} />
         <spotLight position={[10, -10, 10]} intensity={25} color="#00ffff" distance={40} penumbra={1} />
@@ -171,8 +199,8 @@ export default function HexPrism() {
         <directionalLight position={[0, -5, -5]} intensity={3} color="#BBE405" />
 
         <Environment preset="city" />
-        
-        <HolographicGlassPrism />
+
+        <HolographicGlassPrism degraded={degraded} />
 
         {/* Cinematic Bloom logic */}
         <EffectComposer>
