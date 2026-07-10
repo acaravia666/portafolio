@@ -39,7 +39,7 @@
   opacity: 0.03;
 }
 
-/* Local carbon-fibre-ish texture (replaces external transparenttextures.com asset) */
+/* Local carbon-fibre-ish texture (replaces an external texture-asset dependency) */
 .texture-carbon {
   background-image:
     linear-gradient(27deg, rgba(255,255,255,0.03) 5px, transparent 5px),

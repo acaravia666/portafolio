@@ -109,7 +109,7 @@ export default function TerminalChat() {
       </div>
 
       <span className="font-terminal text-[10px] tracking-widest text-gray-400 mb-4 block uppercase">
-        ASSISTANT_ONLINE · claude-sonnet-4-6
+        ASSISTANT_ONLINE · claude-sonnet-5
       </span>
 
       {/* Boot line */}
