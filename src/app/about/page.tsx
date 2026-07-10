@@ -1,4 +1,7 @@
+import type { Metadata } from "next";
 import AnimatedBlock from "@/components/ui/AnimatedBlock";
+
+export const metadata: Metadata = { title: 'Sobre mí | Felipe Caravía' };
 
 export default function About() {
   return (
