@@ -6,6 +6,7 @@ import { Environment, Float, Edges, MeshTransmissionMaterial, TorusKnot, Adaptiv
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
 import { useReducedMotion } from 'framer-motion'
+import HexPrismFallback from './HexPrismFallback'
 
 const PRISM = {
   outer: { radius: 2.4, height: 4.8, sides: 6 },
@@ -162,6 +163,7 @@ function HolographicGlassPrism({ degraded }: { degraded: boolean }) {
 }
 
 export default function HexPrism() {
+  const prefersReducedMotion = useReducedMotion()
   const wrapRef = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(true)
   const [degraded, setDegraded] = useState(false)
@@ -173,6 +175,10 @@ export default function HexPrism() {
     io.observe(el)
     return () => io.disconnect()
   }, [])
+
+  if (prefersReducedMotion) {
+    return <HexPrismFallback />
+  }
 
   return (
     <div
