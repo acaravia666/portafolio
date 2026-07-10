@@ -45,6 +45,20 @@ export default function RootLayout({
       <body
         className={`${notoSerif.variable} ${spaceGrotesk.variable} ${geistMono.variable} min-h-full flex flex-col font-body bg-background text-primary`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: 'Felipe Caravía',
+              jobTitle: 'Arquitecto de productos digitales & IA',
+              url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+              address: { '@type': 'PostalAddress', addressLocality: 'Quito', addressCountry: 'EC' },
+              sameAs: ['https://github.com/acaravia666'],
+            }),
+          }}
+        />
         <Navbar />
         <PageTransition>{children}</PageTransition>
         <Footer />
