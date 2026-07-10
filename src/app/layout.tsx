@@ -23,8 +23,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Felipe Caravia| Arquitecto de IA & Automatización",
-  description: "Senior developer especializado en IA, automatización y GoHighLevel. Basado en Quito, Ecuador.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
+  title: 'Felipe Caravía | Arquitecto creativo de productos digitales & IA',
+  description: 'Desarrollador senior especializado en producto digital, IA y automatización. Quito, Ecuador.',
 };
 
 export default function RootLayout({

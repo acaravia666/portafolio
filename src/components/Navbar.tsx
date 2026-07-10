@@ -6,8 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const links = [
   { href: '/', label: 'HOME' },
+  { href: '/work', label: 'WORK' },
+  { href: '/services', label: 'SERVICES' },
   { href: '/about', label: 'ABOUT' },
-  { href: '/projects', label: 'PROJECTS' },
   { href: '/contact', label: 'CONTACT' },
 ]
 
@@ -15,6 +16,7 @@ export default function Navbar() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [prevPathname, setPrevPathname] = useState(pathname)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,9 +27,10 @@ export default function Navbar() {
   }, [])
 
   // Close mobile menu when route changes
-  useEffect(() => {
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname)
     setIsOpen(false)
-  }, [pathname])
+  }
 
   return (
     <motion.header 
@@ -46,9 +49,9 @@ export default function Navbar() {
         <Link
           href="/"
           className="font-mono text-xl md:text-2xl font-black uppercase tracking-tighter hover:scale-105 transition-transform"
-          aria-label="HEX.vIA.sys[06] — Home"
+          aria-label="Felipe Caravía — Home"
         >
-          HEX.vIA.sys[06]
+          FELIPE CARAVÍA<span className="text-secondary-container">.</span>
         </Link>
         
         {/* Desktop Links */}
@@ -98,7 +101,7 @@ export default function Navbar() {
           >
             <div className="flex-grow flex flex-col items-center justify-center gap-8 pb-32">
               <span className="font-terminal text-[10px] uppercase text-gray-500 mb-8 blink">
-                // SYSTEM_NAVIGATION_ACTIVE
+                {'// SYSTEM_NAVIGATION_ACTIVE'}
               </span>
               {links.map((link, i) => (
                 <motion.div
