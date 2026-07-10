@@ -8,7 +8,7 @@ function hostOf(url?: string) {
 }
 
 export default function ProjectCard({ project }: { project: Project }) {
-  const href = project.featured ? `/work/${project.slug}` : (project.liveUrl ?? project.repoUrl ?? '#')
+  const href = project.featured ? `/work/${project.slug}` : (project.liveUrl ?? '#')
   const external = !project.featured
   const shot = project.screenshots.find((s) => s.device === 'desktop')
 

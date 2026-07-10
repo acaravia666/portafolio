@@ -5,9 +5,9 @@ export default function FlagshipCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/work/${project.slug}`}
-      className="group relative block border border-black bg-[#0a0a0a] text-white overflow-hidden texture-carbon"
+      className="group relative flex flex-col h-full border border-black bg-[#0a0a0a] text-white overflow-hidden texture-carbon"
     >
-      <div className="relative z-10 p-8 md:p-10 flex flex-col h-full min-h-[280px]">
+      <div className="relative z-10 p-8 md:p-10 flex flex-col flex-1 min-h-[280px]">
         <div className="flex items-center gap-3 mb-8">
           <span className="bg-secondary-container text-black text-[10px] font-bold px-2 py-0.5 uppercase tracking-tighter">
             CASE_STUDY

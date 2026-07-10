@@ -93,7 +93,7 @@ export default function Home() {
             </div>
           </AnimatedBlock>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-black/10 px-6 md:px-12 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-black/10 px-6 md:px-12 pb-12">
           {flagships.filter((p) => !p.heroEmbed).map((p) => (
             <AnimatedBlock key={p.slug} className="bg-background">
               <FlagshipCard project={p} />

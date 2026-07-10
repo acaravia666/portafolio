@@ -127,11 +127,6 @@ export default async function CaseStudy(
               VER_EN_VIVO <span className="material-symbols-outlined text-sm">north_east</span>
             </a>
           )}
-          {project.repoUrl && (
-            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="px-6 py-3 border border-black font-terminal text-sm uppercase hover:bg-surface transition-colors flex items-center gap-2">
-              CÓDIGO <span className="material-symbols-outlined text-sm">code</span>
-            </a>
-          )}
         </div>
         <Link href="/contact#form" className="px-8 py-4 bg-secondary-container text-black font-terminal text-sm uppercase border border-black shadow-[4px_4px_0_0_#000] hover:shadow-[2px_2px_0_0_#000] hover:translate-x-[2px] hover:translate-y-[2px] transition-all flex items-center gap-3">
           PROYECTO_SIMILAR <span className="material-symbols-outlined text-sm">north_east</span>
