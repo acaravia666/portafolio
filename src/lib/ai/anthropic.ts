@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { assertLeadScore } from './types'
 import type { AIProvider, LeadScore } from './types'
 
 let client: Anthropic | null = null
@@ -32,6 +33,6 @@ export const anthropicProvider: AIProvider = {
       messages: [{ role: 'user', content: user }],
     })
     const text = res.content[0]?.type === 'text' ? res.content[0].text : ''
-    return JSON.parse(text) as LeadScore
+    return assertLeadScore(JSON.parse(text))
   },
 }

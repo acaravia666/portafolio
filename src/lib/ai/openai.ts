@@ -1,4 +1,5 @@
 import OpenAI from 'openai'
+import { assertLeadScore } from './types'
 import type { AIProvider, LeadScore } from './types'
 
 let client: OpenAI | null = null
@@ -29,7 +30,8 @@ export const openaiProvider: AIProvider = {
       response_format: { type: 'json_object' },
       messages: [{ role: 'system', content: system }, { role: 'user', content: user }],
     })
-    const text = res.choices[0]?.message?.content ?? '{}'
-    return JSON.parse(text) as LeadScore
+    const text = res.choices[0]?.message?.content
+    if (!text) throw new Error('OpenAI returned empty content')
+    return assertLeadScore(JSON.parse(text))
   },
 }
