@@ -5,6 +5,15 @@ import { LeadSchema } from '@/types/lead'
 import { getAIProvider } from '@/lib/ai'
 import { LEAD_SCORING_SYSTEM_PROMPT } from '@/lib/anthropic/prompts'
 import { Resend } from 'resend'
+import { z } from 'zod'
+import { checkSpam } from '@/lib/spam'
+import { rateLimit } from '@/lib/rateLimit'
+
+// Contact payload = lead fields + two anti-spam fields the client attaches.
+const ContactSchema = LeadSchema.extend({
+  website: z.string().max(200).optional(), // honeypot — hidden, must be empty
+  ts: z.number().optional(),               // epoch ms when the form rendered
+})
 
 export async function POST(request: Request) {
   try {
@@ -16,7 +25,7 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Invalid JSON' }, { status: 400 })
     }
 
-    const parsed = LeadSchema.safeParse(body)
+    const parsed = ContactSchema.safeParse(body)
     if (!parsed.success) {
       return Response.json(
         { error: 'Validation failed', issues: parsed.error.issues },
@@ -24,7 +33,44 @@ export async function POST(request: Request) {
       )
     }
 
-    const { name, email, company, message } = parsed.data
+    const { name, email, company, message, website, ts } = parsed.data
+
+    // 1b. Anti-spam gate — runs before any AI / DB / email work.
+    const ip =
+      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      request.headers.get('x-real-ip') ||
+      'unknown'
+
+    if (!rateLimit(`contact:${ip}`)) {
+      return Response.json(
+        { error: 'Demasiados envíos. Espera un momento e intenta de nuevo.' },
+        { status: 429 }
+      )
+    }
+
+    const verdict = checkSpam({
+      website,
+      elapsedMs: typeof ts === 'number' ? Date.now() - ts : undefined,
+      name,
+      email,
+      company,
+      message,
+    })
+    if (!verdict.ok) {
+      console.warn('[Contact] blocked as spam:', verdict.reason, 'ip=', ip)
+      if (verdict.silent) {
+        // Fake success so bots don't adapt; nothing is stored or emailed.
+        return Response.json({
+          success: true,
+          message: 'Mensaje recibido. Te contactaré en 24-48 horas.',
+          score: 0,
+        })
+      }
+      return Response.json(
+        { error: 'No se pudo enviar. Recarga la página e intenta de nuevo.' },
+        { status: 400 }
+      )
+    }
 
     // 2. Score lead via the configured AI provider
     let aiScore = 50

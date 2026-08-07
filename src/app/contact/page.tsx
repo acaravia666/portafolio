@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import TerminalChat from '@/components/ui/TerminalChat'
 import { useTypewriter } from '@/hooks/useTypewriter'
 
@@ -26,6 +26,12 @@ export default function Contact() {
   const [form, setForm] = useState<FormState>({ name: '', email: '', company: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  // Anti-spam: honeypot field + time-on-page (bots fill the trap / submit instantly)
+  const honeypotRef = useRef<HTMLInputElement>(null)
+  const loadedAt = useRef<number | null>(null)
+  useEffect(() => {
+    loadedAt.current = Date.now()
+  }, [])
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -40,7 +46,11 @@ export default function Contact() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          website: honeypotRef.current?.value ?? '',
+          ts: loadedAt.current ?? undefined,
+        }),
       })
       const data = (await res.json()) as { success?: boolean; message?: string; error?: string }
 
@@ -111,6 +121,20 @@ export default function Contact() {
           {/* Contact form */}
           <form id="form" onSubmit={handleSubmit} className="space-y-6" noValidate>
             <div className="font-terminal text-[10px] uppercase tracking-widest text-gray-500 mb-4">FORM_DIRECT_CONTACT</div>
+
+            {/* Honeypot — invisible to humans; bots fill it and get silently dropped */}
+            <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+              <label htmlFor="website">No llenar este campo</label>
+              <input
+                id="website"
+                name="website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                ref={honeypotRef}
+                defaultValue=""
+              />
+            </div>
 
             {[
               { name: 'name', label: 'NOMBRE_COMPLETO', type: 'text', required: true },
